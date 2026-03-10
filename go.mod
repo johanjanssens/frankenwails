@@ -1,4 +1,4 @@
-module frankenwails
+module github.com/johanjanssens/frankenwails
 
 go 1.26.0
 
