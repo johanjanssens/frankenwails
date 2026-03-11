@@ -96,19 +96,3 @@ frankenwails/
 
 Code is MIT — see [LICENSE.md](LICENSE.md). The [talk material](talk.md) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — free to share and adapt with attribution.
 
-## Postcardware
-
-If you use this in a project or adapt the talk material, we'd love a postcard!
-
-**Johan Janssens**
-Ganzenbeemd 7
-3294 Molenstede
-Belgium
-
-## Show & Tell
-
-Built something cool with FrankenWails? We'd love to see it! Open an issue
-with the tag `show-and-tell`, drop us a link, screenshot, or quick story
-about what you made.
-
-If postcards and show & tell are too much, a GitHub star goes a long way too.
