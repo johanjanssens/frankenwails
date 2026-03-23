@@ -27,36 +27,25 @@ The WebView thinks it's making HTTP requests, but they're just function calls to
 
 ## Quick Start
 
-### 1. Build PHP
-
-FrankenWails embeds PHP as a static library via CGO. The included build system uses [static-php-cli](https://static-php.dev) to compile PHP 8.3 with extensions:
+### Build & Run
 
 ```bash
-make php     # Downloads static-php-cli + builds PHP (first time takes a while)
+make php        # Build PHP 8.3 (ZTS, embed) via static-php-cli (one-time)
+make env        # Generate env.yaml with CGO flags from the PHP build
+make run        # Build the binary + launch the desktop app
 ```
 
-This produces `dist/.php/buildroot/` with `libphp.a`, headers, and extensions.
-
-### 2. Build & Run
+The PHP build is cached in `dist/.php/` — subsequent runs skip the build if `libphp.a` exists. To rebuild PHP from scratch:
 
 ```bash
-make build   # Build the binary (dist/frankenwails)
-make run     # Build + launch the desktop app
+make php-clean  # Remove cached downloads and build artifacts
+make php        # Rebuild
+make env        # Regenerate env.yaml
 ```
-
-The Makefile resolves CGO flags automatically from `build/php`. If an `env.yaml` exists (e.g., pointing to an external PHP build), flag resolution is skipped.
-
-The build uses the `nowatcher` tag to disable FrankenPHP's file watcher, avoiding the need to build its C++ dependency.
 
 ### GoLand
 
-Generate an `env.yaml` with the correct CGO flags for your system:
-
-```bash
-make env     # Auto-generates env.yaml from the PHP build
-```
-
-Then configure GoLand to load `env.yaml` as environment variables.
+Install the [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) plugin, then in your Run Configuration enable EnvFile and add `env.yaml` to load the CGO flags automatically.
 
 ## Demos
 

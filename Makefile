@@ -13,21 +13,32 @@ php:
 .PHONY: build
 build:
 	if [ ! -f $(ROOT)/env.yaml ]; then
-		if [ "$$(uname -s)" = "Darwin" ]; then
-			export MACOSX_DEPLOYMENT_TARGET="15.0"
-		fi
-		export CGO_CFLAGS="$$(make -C $(PHP) cflags)"
-		export CGO_CPPFLAGS="$$CGO_CFLAGS"
-		export CGO_LDFLAGS="$$(make -C $(PHP) ldflags)"
+		echo "Error: env.yaml not found."
+		echo "Run 'make php' to build PHP, then 'make env' to generate env.yaml."
+		echo "See README.md for details."
+		exit 1
 	fi
 
 	cd $(ROOT)
-	CGO_ENABLED=1 go build -tags "nowatcher desktop dev" -o dist/frankenwails .
+	while IFS= read -r line; do
+		key="$${line%%:*}"
+		value="$${line#*: \"}"
+		value="$${value%\"}"
+		[ -n "$$key" ] && export "$$key=$$value"
+	done < env.yaml
+	go build -tags "nowatcher desktop dev" -o dist/frankenwails .
 	echo "Built dist/frankenwails"
 
 .PHONY: run
 run: build
-	cd $(ROOT) && ./dist/frankenwails
+	cd $(ROOT)
+	while IFS= read -r line; do
+		key="$${line%%:*}"
+		value="$${line#*: \"}"
+		value="$${value%\"}"
+		[ -n "$$key" ] && export "$$key=$$value"
+	done < env.yaml
+	./dist/frankenwails
 
 .PHONY: env
 env:
