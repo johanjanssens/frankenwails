@@ -6,3 +6,4 @@ dist/
 __debug_bin
 *.log
 env.yaml
+discussion-post.md
